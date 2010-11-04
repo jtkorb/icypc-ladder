@@ -1,0 +1,9 @@
+{% if results_list %}
+<ul>
+	{% for r in results_list %}
+		<li>{{r.winnerUser}} beats {{r.loserUser}} at {{r.time}}</li>
+	{% endfor %}
+</ul>
+{% else %}
+<i>No results yet.</i>
+{% endif %}
