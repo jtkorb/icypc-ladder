@@ -1,0 +1,24 @@
+<h2>Purdue Competitive Programming Class</h2>
+<h1>ICYPC Ladder Challenge Form</h1>
+
+{% if error_message %}<p><strong>{{ error_message}}</strong></p>{% endif %}
+
+<form action="/challenge/" method="post">
+{% csrf_token %}
+<input type="submit" value="Challenge">
+
+{% if results_list %}
+	<table border="1" cellpadding="4" cellspacing="0">
+	<tr><th>Position</th><th>Login ID</th><th>Program</th><th>Time</th></tr>
+	{% for r in results_list %}
+		<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{r.user}}</td>
+		<td>{{r.player}}</td>
+		<td>{{r.time}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+<i>Challenger queue is empty.</i>
+{% endif %}
