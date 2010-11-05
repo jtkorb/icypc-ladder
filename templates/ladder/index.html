@@ -1,9 +1,70 @@
-{% if results_list %}
-<ul>
-	{% for r in results_list %}
-		<li>{{r.winnerUser}} beats {{r.loserUser}} at {{r.time}}</li>
+{% if error_message %}<p><strong>{{ error_message}}</strong></p>{% endif %}
+
+<h2>Purdue Competitive Programming Class</h2>
+<h1>ICYPC Competition Ladder</h1>
+
+<h2>Current Rankings</h2>
+
+{% if ladder_list %}
+	<table border="1" cellpadding="4" cellspacing="0">
+	<tr><th>Rank</th><th>User ID</th><th>Player</th></tr>
+	{% for r in ladder_list %}
+		<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{r.0}}</td>
+		<td>{{r.1}}</td>
+		</tr>
 	{% endfor %}
-</ul>
+	</table>
 {% else %}
-<i>No results yet.</i>
+	<i>No results yet.</i>
 {% endif %}
+
+<h2>Challenge Queue</h2>
+{% if challengers_list %}
+	<table border="1" cellpadding="4" cellspacing="0">
+	<tr><th>Position</th><th>User ID</th><th>Player</th><th>Time</th></tr>
+	{% for r in challengers_list %}
+		<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{r.user}}</td>
+		<td>{{r.player}}</td>
+		<td>{{r.time}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<i>No challenges pending.</i>
+{% endif %}
+
+<h3>Add a Challenge</h3>
+<form action="/challenge/" method="post">
+{% csrf_token %}
+<table border="0">
+<tr><td>Your CS user id (e.g., jtk):</td><td><input type="text" name="userid" /></td></tr>
+<tr><td>Your player script (e.g., hunter):</td><td><input type="text" name="player" /></td></tr>
+</table>
+<i>Note that your player script must be world executable and located in 
+a world readable top-level directy named "icypc".</i>
+<p>
+<input type="submit" value="Challenge">
+
+
+<h2>Individual Match Results</h2>
+
+{% if results_list %}
+	<table border="1" cellpadding="4" cellspacing="0">
+	<tr><th>Match</th><th>Winner</th><th>Loser</th><th>Time</th></tr>
+	{% for r in results_list %}
+		<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{r.winnerUser}}/{{r.winnerPlayer}}</td>
+		<td>{{r.loserUser}}/{{r.loserPlayer}}</td>
+		<td>{{r.time}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<i>No results yet.</i>
+{% endif %}
+
