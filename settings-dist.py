@@ -1,10 +1,16 @@
-# Django settings for CS390CP project.
+# Django settings for this project.
+
+# Localizing settings...
+ADMIN_NAME = 'YOUR NAME'
+ADMIN_EMAIL = 'YOUR EMAIL'
+ROOT_PATH = 'ABSOLUTE PATH TO DIRECTORY INCLUDING THIS FILE'
+SECRET_KEY = '======= CHOOSE A RANDOM KEY THIS BIG ========'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Tim Korb', 'jtk@purdue.edu'),
+    (admin_name, admin_email),
 )
 
 MANAGERS = ADMINS
@@ -12,7 +18,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/jtk/Dropbox/Competitive Programming/workspace/CS390CP/sqlite.db',                      # Or path to database file if using sqlite3.
+        'NAME': ROOT_PATH + '/sqlite.db',# Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -27,7 +33,6 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
 TIME_ZONE = None
 
 # Language code for this installation. All choices can be found here:
@@ -77,12 +82,13 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'CS390CP.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/Users/jtk/Dropbox/Competitive Programming/workspace/CS390CP/templates'
+    ROOT_PATH + '/templates'
 )
 
 INSTALLED_APPS = (
@@ -91,9 +97,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
     'ladder',
 )
