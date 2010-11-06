@@ -10,7 +10,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    (admin_name, admin_email),
+    (ADMIN_NAME, ADMIN_EMAIL),
 )
 
 MANAGERS = ADMINS
