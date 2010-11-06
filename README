@@ -1,7 +1,4 @@
-A ladder program to manage competitors in an ICYPC tournament.  More setup instructions coming...
+A ladder program to manage competitors in an ICYPC tournament.
 
-This edit made in the clean-pycs branch.
-
-Latest edit made back in the master branch.
-
-jtk, 11/5/10
+After downloading repo, copy settings-dist.py to settings.py and edit file paths.  Note that
+settings.py and the ladder database, sqlite.db, are not versioned.
