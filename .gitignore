@@ -3,3 +3,4 @@
 .settings
 .pydevproject
 sqlite.db
+/settings.py
