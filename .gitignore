@@ -1,6 +1,6 @@
 *.pyc
-.project
-.settings
-.pydevproject
-sqlite.db
+/.project
+/.settings
+/.pydevproject
+/sqlite.db
 /settings.py
