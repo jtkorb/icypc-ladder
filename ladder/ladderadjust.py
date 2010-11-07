@@ -4,8 +4,8 @@ Created on Nov 5, 2010
 @author: jtk
 '''
 
-# Adjust the ladder to account for the match winner and loser.  Return True if the challenger won,
-# which means there should be another match (unless challenger is now number one).
+# Adjust the ladder to account for the match winner and loser.  Return True if the match did
+# not result in any change to the ladder, indicating that no further matches are necessary.
 def adjustLadder(ladder, winner, loser):
     if winner not in ladder:
         ladder.append(winner)
@@ -15,8 +15,17 @@ def adjustLadder(ladder, winner, loser):
     lIndex = ladder.index(loser)
 #    assert abs(wIndex - lIndex) == 1
     if wIndex < lIndex:
-        return False
+        return True
     else:
         (ladder[wIndex], ladder[lIndex]) = (ladder[lIndex], ladder[wIndex])
-        return True
+        return False
         
+def buildLadder(results_list):
+    ladder = []
+    for result in results_list:
+        winner = (result.winnerUser, result.winnerPlayer)
+        loser = (result.loserUser, result.loserPlayer)
+        adjustLadder(ladder, winner, loser)
+    for r in ladder:
+        print 'r = ' + r[0] + ' ' + r[1]
+    return ladder
