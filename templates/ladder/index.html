@@ -20,25 +20,6 @@
 	<i>No results yet.</i>
 {% endif %}
 
-{% comment %}
-<h2>Challenge Queue</h2>
-{% if challengers_list %}
-	<table border="1" cellpadding="4" cellspacing="0">
-	<tr><th>Position</th><th>User ID</th><th>Player</th><th>Time</th></tr>
-	{% for r in challengers_list %}
-		<tr>
-		<td>{{forloop.counter}}</td>
-		<td>{{r.user}}</td>
-		<td>{{r.player}}</td>
-		<td>{{r.time}}</td>
-		</tr>
-	{% endfor %}
-	</table>
-{% else %}
-	<i>No challenges pending.</i>
-{% endif %}
-{% endcomment %}
-
 <h3>Make a Challenge</h3>
 <form action="/challenge/" method="post">
 {% csrf_token %}
@@ -47,22 +28,22 @@
 <tr><td>Your player script (e.g., hunter):</td><td><input type="text" name="player" /></td></tr>
 </table>
 <i>Note that your player script must be world executable and located in 
-a world readable top-level directy named "icypc".</i>
+a world readable top-level directory named "icypc".</i>
 <p>
 <input type="submit" value="Challenge">
-
 
 <h2>Individual Match Results</h2>
 
 {% if results_list %}
 	<table border="1" cellpadding="4" cellspacing="0">
-	<tr><th>Match</th><th>Winner</th><th>Loser</th><th>Time</th></tr>
+	<tr><th>Match</th><th>Winner</th><th>Loser</th><th>Time</th><th>Output</th></tr>
 	{% for r in results_list %}
 		<tr>
-		<td>{{forloop.counter}}</td>
+		<td>{{r.pk}}</td>
 		<td>{{r.winnerUser}}/{{r.winnerPlayer}}</td>
 		<td>{{r.loserUser}}/{{r.loserPlayer}}</td>
 		<td>{{r.time}}</td>
+		<td>{{r.output}}</td>
 		</tr>
 	{% endfor %}
 	</table>
