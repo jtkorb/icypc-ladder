@@ -4,6 +4,12 @@ def executable(user, player):
     return '~' + user + '/icypc/' + player
 
 class Challenger(models.Model):
+    '''
+    >>> from datetime import datetime
+    >>> c1 = Challenger.objects.create(time=datetime.now(), user='jtk', player='hunter')
+    >>> c1.__unicode__().split(' ')[2]
+    '~jtk/icypc/hunter'
+    '''
     time = models.DateTimeField('time challenged')
     user = models.CharField(max_length=10)
     player = models.CharField(max_length=20)

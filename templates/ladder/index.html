@@ -20,6 +20,7 @@
 	<i>No results yet.</i>
 {% endif %}
 
+{% comment %}
 <h2>Challenge Queue</h2>
 {% if challengers_list %}
 	<table border="1" cellpadding="4" cellspacing="0">
@@ -36,8 +37,9 @@
 {% else %}
 	<i>No challenges pending.</i>
 {% endif %}
+{% endcomment %}
 
-<h3>Add a Challenge</h3>
+<h3>Make a Challenge</h3>
 <form action="/challenge/" method="post">
 {% csrf_token %}
 <table border="0">
