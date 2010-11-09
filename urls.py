@@ -13,6 +13,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
+    (r'^ladder/challenge/', 'ladder.views.challenge'),
     (r'^ladder/', 'ladder.views.index'),
-    (r'^challenge/', 'ladder.views.challenge'),
 )

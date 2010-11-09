@@ -1,0 +1,27 @@
+{% if error_message %}<p><strong>{{ error_message}}</strong></p>{% endif %}
+
+<h2>Purdue Competitive Programming Class</h2>
+<h1>ICYPC Competition Ladder</h1>
+
+<h2>Challenge Results</h2>
+
+{% if results_list %}
+	<table border="1" cellpadding="4" cellspacing="0">
+	<tr><th>Match</th><th>Winner</th><th>Loser</th><th>Time</th><th>Output</th></tr>
+	{% for r in results_list %}
+		<tr>
+		<td>{{r.pk}}</td>
+		<td>{{r.winnerUser}}/{{r.winnerPlayer}}</td>
+		<td>{{r.loserUser}}/{{r.loserPlayer}}</td>
+		<td>{{r.time}}</td>
+		<td>{{r.output}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<i>No results (error?).</i>
+{% endif %}
+<br />
+<form action="/ladder/" method="post">
+{% csrf_token %}
+<input type="submit" value="Return to Ladder">
