@@ -30,7 +30,7 @@ def scriptRunnable(userid, player):
         return False
     return True
 
-output_pattern = re.compile(r'Winner: (\d+)\sScore: (\d+) \((\d+) (\d+)\) (\d+) \((\d+) (\d+)\)')
+output_pattern = re.compile(r'.*Winner: (\d+)\sScore: (\d+) \((\d+) (\d+)\) (\d+) \((\d+) (\d+)\)', re.DOTALL)
 
 def runMatch(red, blue):
     (redUser, redPlayer) = red
@@ -45,8 +45,6 @@ def runMatch(red, blue):
     
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, stderr) = p.communicate();
-    print '=====\n' + output + '\n====='
-#    print '+++++\n' + stderr + '\n+++++'
     m = output_pattern.match(output)
     
     (winner, loser) = (red, blue) # default
@@ -59,14 +57,14 @@ def runMatch(red, blue):
         log = 'challenger (%s) %s: %s [%s (%s %s)] vs. %s [%s (%s %s)]' % (bname, challengerState,
                                                                           rname, m.group(2), m.group(3), m.group(4),
                                                                           bname, m.group(5), m.group(6), m.group(7))
+        r = Result(time=datetime.now(), winnerUser=winner[0], winnerPlayer=winner[1], loserUser=loser[0], loserPlayer=loser[1],
+                   output=log)
+        r.save()
     else:
-        print "no winner found, probably a script was not executable"
-        log = stderr
-    print log
-
-    r = Result(time=datetime.now(), winnerUser=winner[0], winnerPlayer=winner[1], loserUser=loser[0], loserPlayer=loser[1],
-               output=log)
-    r.save()
+        print "no winner found, probably a script was not executable; stdout and stderr follow"
+        print '===== begin stdout =====\n' + output + '\n===== end stdout'
+        print '===== begin stderr =====\n' + stderr + '\n===== end stderr ====='
+        
     return (winner, loser)
 
 def runLadder(userid, player):
