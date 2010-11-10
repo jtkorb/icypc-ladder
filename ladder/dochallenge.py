@@ -6,14 +6,14 @@ Created on Nov 6, 2010
 from os.path import expanduser
 import subprocess
 import re
-from settings import ICYPC_JAR
-from os import stat
+from settings import ICYPC_JAR, TRACES_DIR
+from os import stat, makedirs, rename
 from datetime import datetime
 
 from models import Result
 from ladderadjust import buildLadder, adjustLadder
 
-runtemplate = 'java -jar %s -player pipe 1 %s -player pipe 1 %s -view trace trace.txt'
+runtemplate = 'java -jar %s -player pipe 1 %s -player pipe 1 %s -view trace %s/trace.txt'
 
 def script(userid, player):
     return expanduser('~' + userid) + '/icypc/' + player
@@ -30,6 +30,20 @@ def scriptRunnable(userid, player):
         return False
     return True
 
+S_IFDIR = 0040000        
+
+def makeTraceDir():
+    try:
+        mode = stat(TRACES_DIR).st_mode
+        if (mode & S_IFDIR == 0):
+            print 'not a directory or not accessible:', TRACES_DIR, '--tell a friend'
+    except OSError:
+        print 'making', TRACES_DIR
+        try:
+            makedirs(TRACES_DIR)
+        except:
+            print 'could not make', TRACES_DIR, '--tell a friend'
+
 output_pattern = re.compile(r'.*Winner: (\d+)\sScore: (\d+) \((\d+) (\d+)\) (\d+) \((\d+) (\d+)\)', re.DOTALL)
 
 def runMatch(red, blue):
@@ -40,7 +54,8 @@ def runMatch(red, blue):
     bname = blueUser + '/' + bluePlayer
     print 'Playing ' + rname + ' vs. ' +  bname
     
-    command = (runtemplate % (ICYPC_JAR, script(redUser, redPlayer), script(blueUser, bluePlayer))).split()
+    makeTraceDir()
+    command = (runtemplate % (ICYPC_JAR, script(redUser, redPlayer), script(blueUser, bluePlayer), TRACES_DIR)).split()
     print command
     
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -60,6 +75,7 @@ def runMatch(red, blue):
         r = Result(time=datetime.now(), winnerUser=winner[0], winnerPlayer=winner[1], loserUser=loser[0], loserPlayer=loser[1],
                    output=log)
         r.save()
+        rename('trace.txt', TRACES_DIR + '/%s.txt' % r.pk)
     else:
         print "no winner found, probably a script was not executable; stdout and stderr follow"
         print '===== begin stdout =====\n' + output + '\n===== end stdout'
