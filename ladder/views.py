@@ -32,4 +32,3 @@ def challenge(request):
     return render_to_response('ladder/challenge.html',
                               {'results_list': results_list}, 
                               context_instance=RequestContext(request))
-#    return HttpResponseRedirect('/ladder/')
