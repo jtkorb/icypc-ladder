@@ -19,10 +19,10 @@
 	{% endfor %}
 	</table>
 {% else %}
-	<i>No results (error?).</i>
+	<i> Error: The player script</i> &ldquo;<tt>{{ script }}</tt>&rdquo; <i>does not exist or is not world executable (mode 755, for example).</i>
 {% endif %}
 <br />
-
+<br />
 <form action="/ladder/">
 <input type="submit" value="Return to Ladder">
 </form>
