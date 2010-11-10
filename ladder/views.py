@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 
 from models import Result
 from ladderadjust import buildLadder
-from dochallenge import runLadder, scriptRunnable
+from dochallenge import runLadder, scriptRunnable, script
 
 
 def index(request):
@@ -25,10 +25,15 @@ def challenge(request):
     print 'in challenge'
     userid = request.POST['userid']
     player = request.POST['player']
-    first = Result.objects.count() # get index of first result to be created in this challenge match
-    if scriptRunnable(userid, player):
-        runLadder(userid, player)
-    results_list = Result.objects.all()[first:]
-    return render_to_response('ladder/challenge.html',
-                              {'results_list': results_list}, 
-                              context_instance=RequestContext(request))
+    if (userid, player) == ('debug', 'reset'):
+        Result.objects.all().delete()
+        return HttpResponseRedirect('/ladder/index.html')
+    else:
+        first = Result.objects.count() # get index of first result to be created in this challenge match
+        if scriptRunnable(userid, player):
+            runLadder(userid, player)
+        results_list = Result.objects.all()[first:]
+        return render_to_response('ladder/challenge.html',
+                                  {'results_list': results_list,
+                                   'script': script(userid, player)}, 
+                                   context_instance=RequestContext(request))
