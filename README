@@ -1,4 +1,5 @@
 A ladder program to manage competitors in an ICYPC tournament.
 
-After downloading repo, copy settings-dist.py to settings.py and edit file paths.  Note that
-settings.py and the ladder database, sqlite.db, are not versioned.
+After downloading repo, copy settings-dist.py to settings.py and 
+edit file paths.  Note that settings.py and the ladder database, 
+sqlite.db, are not versioned.
