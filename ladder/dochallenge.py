@@ -75,7 +75,7 @@ def runMatch(red, blue):
         r = Result(time=datetime.now(), winnerUser=winner[0], winnerPlayer=winner[1], loserUser=loser[0], loserPlayer=loser[1],
                    output=log)
         r.save()
-        rename('trace.txt', TRACES_DIR + '/%s.txt' % r.pk)
+        rename(TRACES_DIR + '/trace.txt', TRACES_DIR + '/%s.txt' % r.pk)
     else:
         print "no winner found, probably a script was not executable; stdout and stderr follow"
         print '===== begin stdout =====\n' + output + '\n===== end stdout'
