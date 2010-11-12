@@ -13,6 +13,31 @@ from datetime import datetime
 from models import Result
 from ladderadjust import buildLadder, adjustLadder
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+LOG_FILENAME = 'ladder.log'
+logging.basicConfig(filename=LOG_FILENAME, 
+                    format='%(asctime)s %(levelname)-8s %(message)s',
+                    datefmt='[%d-%m-%Y %H:%M:%S]',
+                    level=logging.DEBUG,
+                    )
+
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+#
+## create formatter
+formatter = logging.Formatter("%(asctime)s %(name)s: %(levelname)s - %(message)s", '[%d/%b/%Y %H:%M:%S]')
+
+## add formatter to ch
+ch.setFormatter(formatter)
+
+## add ch to logger
+logger.addHandler(ch)
+
+
 runtemplate = 'java -jar %s -player pipe 1 %s -player pipe 1 %s -view trace %s/trace.txt'
 
 def script(userid, player):
@@ -23,10 +48,10 @@ def scriptRunnable(userid, player):
     try:
         mode = stat(s).st_mode  # get mode bits of script file
     except OSError:
-        print 'file', s, 'not found'
+        logger.error("script %s not found" % s)
         return False
     if (mode & 5) != 5: # check for +rx bit set for world
-        print 'file', s, 'is not executable (r+x) for world'
+        logger.error('script %s is not executable (r+x) for world' % s)
         return False
     return True
 
@@ -36,13 +61,13 @@ def makeTraceDir():
     try:
         mode = stat(TRACES_DIR).st_mode
         if (mode & S_IFDIR == 0):
-            print 'not a directory or not accessible:', TRACES_DIR, '--tell a friend'
+            logger.critical('%s is not a directory or not accessible -- tell a friend' % TRACES_DIR)
     except OSError:
         print 'making', TRACES_DIR
         try:
             makedirs(TRACES_DIR)
         except:
-            print 'could not make', TRACES_DIR, '--tell a friend'
+            logger.critical('could not create %s == tell a friend' % TRACES_DIR)
 
 output_pattern = re.compile(r'.*Winner: (\d+)\sScore: (\d+) \((\d+) (\d+)\) (\d+) \((\d+) (\d+)\)', re.DOTALL)
 
@@ -52,11 +77,11 @@ def runMatch(red, blue):
 
     rname = redUser + '/' + redPlayer
     bname = blueUser + '/' + bluePlayer
-    print 'Playing ' + rname + ' vs. ' +  bname
+    logger.info('playing %s vs. %s' % (rname, bname))
     
     makeTraceDir()
     command = (runtemplate % (ICYPC_JAR, script(redUser, redPlayer), script(blueUser, bluePlayer), TRACES_DIR)).split()
-    print command
+    logger.info('running: "%s"' % command)
     
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, stderr) = p.communicate();
@@ -64,7 +89,7 @@ def runMatch(red, blue):
     
     (winner, loser) = (red, blue) # default
     if m:
-        print 'winner is', m.group(1) 
+        logger.info('winner is %s' % m.group(1))
         challengerState = 'loses'
         if m.group(1) == '1':
             challengerState = 'wins'
@@ -77,14 +102,14 @@ def runMatch(red, blue):
         r.save()
         rename(TRACES_DIR + '/trace.txt', TRACES_DIR + '/%s.txt' % r.pk)
     else:
-        print "no winner found, probably a script was not executable; stdout and stderr follow"
-        print '===== begin stdout =====\n' + output + '\n===== end stdout'
-        print '===== begin stderr =====\n' + stderr + '\n===== end stderr ====='
+        logger.error('no winner found in stdout; probably a script was not executable; stdout and stderr follow')
+        logger.error('===== begin stdout =====\n%s\n===== end stdout' % output)
+        logger.error('===== begin stderr =====\n%s\n===== end stderr' % stderr)
         
     return (winner, loser)
 
 def runLadder(userid, player):
-    print 'running the ladder for', userid, player
+    logger.info('running the ladder for %s/%s' % (userid, player))
     challenger = (userid, player)
     
     if Result.objects.count() == 0:  # hack to handle empty ladder
@@ -97,7 +122,6 @@ def runLadder(userid, player):
 
     while (True):
         i = ladder.index(challenger)
-        print 'challenger', challenger[1], 'index is', i
         if i == 0:
             return
         (winner, loser) = runMatch(ladder[i-1], ladder[i])

@@ -13,7 +13,6 @@ from dochallenge import runLadder, scriptRunnable, script
 
 
 def index(request):
-    print 'in index'
     results_list = Result.objects.order_by('-pk')
     ladder = buildLadder()
     return render_to_response('ladder/index.html', 
@@ -22,7 +21,6 @@ def index(request):
                               context_instance=RequestContext(request))
 
 def challenge(request):
-    print 'in challenge'
     userid = request.POST['userid']
     player = request.POST['player']
     if (userid, player) == ('debug', 'reset'):
