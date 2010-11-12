@@ -116,7 +116,7 @@ def runLadder(userid, player):
         (winner, loser) = runMatch(challenger, challenger)
         return
     
-    ladder = buildLadder()
+    (ladder, wins, losses) = buildLadder()
     if challenger not in ladder:
         ladder.append(challenger)
 

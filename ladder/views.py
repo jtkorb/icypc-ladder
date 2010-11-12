@@ -14,10 +14,17 @@ from dochallenge import runLadder, scriptRunnable, script
 
 def index(request):
     results_list = Result.objects.order_by('-pk')
-    ladder = buildLadder()
+    (ladder, wins, losses) = buildLadder()
+    for i in xrange(len(ladder)):
+        userid = ladder[i][0]
+        player = ladder[i][1]
+        upwins = wins.setdefault((userid, player), 0)
+        uplosses = losses.setdefault((userid, player), 0)
+        ladder[i] = (userid, player, upwins, uplosses)
+        
     return render_to_response('ladder/index.html', 
                               {'results_list': results_list,
-                               'ladder_list': ladder},
+                               'ladder_list': ladder,},
                               context_instance=RequestContext(request))
 
 def challenge(request):

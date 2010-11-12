@@ -7,12 +7,14 @@
 
 {% if ladder_list %}
 	<table border="1" cellpadding="4" cellspacing="0">
-	<tr><th>Rank</th><th>User ID</th><th>Player</th></tr>
+	<tr><th>Rank</th><th>User ID</th><th>Player</th><th>Wins</th><th>Losses</th></tr>
 	{% for r in ladder_list %}
 		<tr>
 		<td>{{forloop.counter}}</td>
 		<td>{{r.0}}</td>
 		<td>{{r.1}}</td>
+		<td>{{r.2}}</td>
+		<td>{{r.3}}</td>
 		</tr>
 	{% endfor %}
 	</table>
