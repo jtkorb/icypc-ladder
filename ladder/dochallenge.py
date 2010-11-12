@@ -101,10 +101,17 @@ def runMatch(red, blue):
                    output=log)
         r.save()
         rename(TRACES_DIR + '/trace.txt', TRACES_DIR + '/%s.txt' % r.pk)
+        
+        try:
+            f = open('%s/%s-stdout.txt' % (TRACES_DIR, r.pk), 'w'); f.write(output); f.close()
+            f = open('%s/%s-stderr.txt' % (TRACES_DIR, r.pk), 'w'); f.write(stderr); f.close()
+        except:
+            logger.critical('could not write std out/err files in %s--tell a friend' % TRACES_DIR)
     else:
         logger.error('no winner found in stdout; probably a script was not executable; stdout and stderr follow')
         logger.error('===== begin stdout =====\n%s\n===== end stdout' % output)
         logger.error('===== begin stderr =====\n%s\n===== end stderr' % stderr)
+        
         
     return (winner, loser)
 
