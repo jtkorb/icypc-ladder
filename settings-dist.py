@@ -102,3 +102,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'ladder',
 )
+
+from logger import initfileLogger, initConsoleLogger
+logger = initFileLogger('ladder', TRACES_DIR + '/ladder.log')
+initConsoleLogger('ladder')
+

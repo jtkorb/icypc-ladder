@@ -6,37 +6,12 @@ Created on Nov 6, 2010
 from os.path import expanduser
 import subprocess
 import re
-from settings import ICYPC_JAR, TRACES_DIR
+from settings import ICYPC_JAR, TRACES_DIR, logger
 from os import stat, makedirs, rename
 from datetime import datetime
 
 from models import Result
 from ladderadjust import buildLadder, adjustLadder
-
-import logging
-
-logger = logging.getLogger(__name__)
-
-LOG_FILENAME = TRACES_DIR + '/ladder.log'
-logging.basicConfig(filename=LOG_FILENAME, 
-                    format='%(asctime)s %(levelname)-8s %(message)s',
-                    datefmt='[%d-%m-%Y %H:%M:%S]',
-                    level=logging.DEBUG,
-                    )
-
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-#
-## create formatter
-formatter = logging.Formatter("%(asctime)s %(name)s: %(levelname)s - %(message)s", '[%d/%b/%Y %H:%M:%S]')
-
-## add formatter to ch
-ch.setFormatter(formatter)
-
-## add ch to logger
-logger.addHandler(ch)
-
 
 runtemplate = 'java -jar %s -player pipe 1 %s -player pipe 1 %s -view trace %s/trace.txt'
 
