@@ -8,13 +8,13 @@ from django.http import HttpResponseRedirect
 #from django.core.urlresolvers import reverse
 
 from models import Result
-from ladderadjust import buildLadder
+from ladderadjust import buildLadder, countWinsLosses
 from dochallenge import runLadder, scriptRunnable, script
-
 
 def index(request):
     results_list = Result.objects.order_by('-pk')
-    (ladder, wins, losses) = buildLadder()
+    ladder = buildLadder()
+    (wins, losses) = countWinsLosses()
     for i in xrange(len(ladder)):
         userid = ladder[i][0]
         player = ladder[i][1]

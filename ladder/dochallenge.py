@@ -17,7 +17,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-LOG_FILENAME = 'ladder.log'
+LOG_FILENAME = TRACES_DIR + '/ladder.log'
 logging.basicConfig(filename=LOG_FILENAME, 
                     format='%(asctime)s %(levelname)-8s %(message)s',
                     datefmt='[%d-%m-%Y %H:%M:%S]',
@@ -123,7 +123,7 @@ def runLadder(userid, player):
         (winner, loser) = runMatch(challenger, challenger)
         return
     
-    (ladder, wins, losses) = buildLadder()
+    ladder = buildLadder()
     if challenger not in ladder:
         ladder.append(challenger)
 

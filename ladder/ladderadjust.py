@@ -23,8 +23,15 @@ def adjustLadder(ladder, winner, loser):
         
 def buildLadder():
     results_list = Result.objects.all()
-
     ladder = []
+    for result in results_list:
+        winner = (result.winnerUser, result.winnerPlayer)
+        loser = (result.loserUser, result.loserPlayer)
+        adjustLadder(ladder, winner, loser)
+    return (ladder)
+
+def countWinsLosses():
+    results_list = Result.objects.all()
     wins = {}
     losses = {}
     for result in results_list:
@@ -32,5 +39,5 @@ def buildLadder():
         wins[winner] = wins.setdefault(winner, 0) + 1
         loser = (result.loserUser, result.loserPlayer)
         losses[loser] = losses.setdefault(loser, 0) + 1
-        adjustLadder(ladder, winner, loser)
-    return (ladder, wins, losses)
+    return (wins, losses)
+    
