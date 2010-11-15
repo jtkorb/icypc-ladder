@@ -103,7 +103,7 @@ INSTALLED_APPS = (
     'ladder',
 )
 
-from logger import initfileLogger, initConsoleLogger
-logger = initFileLogger('ladder', TRACES_DIR + '/ladder.log')
-initConsoleLogger('ladder')
-
+from logging import getLogger
+from initlogging import initFileLogger
+initFileLogger(TRACES_DIR + '/ladder.log')
+logger = getLogger()
