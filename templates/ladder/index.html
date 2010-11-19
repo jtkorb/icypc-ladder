@@ -7,7 +7,7 @@
 
 {% if ladder_list %}
 	<table border="1" cellpadding="4" cellspacing="0">
-	<tr><th>Rank</th><th>User ID</th><th>Player</th><th>Wins</th><th>Losses</th></tr>
+	<tr><th>Rank</th><th>User ID</th><th>Player</th><th>Wins</th><th>Losses</th><th>Challenge</th></tr>
 	{% for r in ladder_list %}
 		<tr>
 		<td>{{forloop.counter}}</td>
@@ -15,6 +15,15 @@
 		<td>{{r.1}}</td>
 		<td>{{r.2}}</td>
 		<td>{{r.3}}</td>
+		<td>{% if forloop.counter > 1 %}
+			<form action="challenge/" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="userid" value="{{r.0}}"/>
+			<input type="hidden" name="player" value="{{r.1}}"/>
+			<input type="submit" align="bottom" value="Challenge Up">
+			</form>
+			{% endif %}
+		</td>
 		</tr>
 	{% endfor %}
 	</table>
