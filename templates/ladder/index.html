@@ -15,15 +15,18 @@
 		<td>{{r.1}}</td>
 		<td>{{r.2}}</td>
 		<td>{{r.3}}</td>
-		<td>{% if forloop.counter > 1 %}
-			<form action="challenge/" method="post">
-			{% csrf_token %}
-			<input type="hidden" name="userid" value="{{r.0}}"/>
-			<input type="hidden" name="player" value="{{r.1}}"/>
-			<input type="submit" align="bottom" value="Challenge Up">
-			</form>
+			{% if forloop.counter > 1 %}
+				<form action="challenge/" method="post">
+				<td>{% csrf_token %}
+				<input type="hidden" name="userid" value="{{r.0}}"/>
+				<input type="hidden" name="player" value="{{r.1}}"/>
+				<input type="submit" align="bottom" value="Challenge Up">
+				</td>
+				</form>
+			{% else %}
+			    <td></td>
 			{% endif %}
-		</td>
+	
 		</tr>
 	{% endfor %}
 	</table>
