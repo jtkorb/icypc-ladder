@@ -22,6 +22,13 @@
 	<i>No results yet.</i>
 {% endif %}
 
+<form action="rebuild/" method="post">
+{% csrf_token %}
+<p>
+<input type="submit" value="Rebuild the Ladder">
+</form>
+
+
 <h3>Make a Challenge</h3>
 <form action="challenge/" method="post">
 {% csrf_token %}
@@ -33,6 +40,7 @@
 a world readable top-level directory named "icypc".</i>
 <p>
 <input type="submit" value="Challenge">
+</form>
 
 <h2>Individual Match Results</h2>
 

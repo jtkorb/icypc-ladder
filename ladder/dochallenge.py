@@ -95,10 +95,15 @@ def runLadder(userid, player):
     challenger = (userid, player)
     
     if Result.objects.count() == 0:  # hack to handle empty ladder
-        (winner, loser) = runMatch(challenger, challenger)
+        runMatch(challenger, challenger)
         return
     
     ladder = buildLadder()
+    runGauntlet(challenger, ladder)
+
+# Run one player (the challenger) through the ladder
+#
+def runGauntlet(challenger, ladder):
     if challenger not in ladder:
         ladder.append(challenger)
 
@@ -108,4 +113,4 @@ def runLadder(userid, player):
             return
         (winner, loser) = runMatch(ladder[i-1], ladder[i])
         if adjustLadder(ladder, winner, loser):  # returns True if challenger lost
-            return    
+            return

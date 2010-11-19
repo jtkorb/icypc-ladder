@@ -9,9 +9,11 @@ from django.http import HttpResponseRedirect
 
 from models import Result
 from ladderadjust import buildLadder, countWinsLosses
-from dochallenge import runLadder, scriptRunnable, script
+from dochallenge import runLadder, scriptRunnable, script, runGauntlet
+from settings import logger
 
 def index(request):
+    logger.info('in index')
     results_list = Result.objects.order_by('-pk')
     ladder = buildLadder()
     (wins, losses) = countWinsLosses()
@@ -42,3 +44,17 @@ def challenge(request):
                                   {'results_list': results_list,
                                    'script': script(userid, player)}, 
                                    context_instance=RequestContext(request))
+
+def rebuild(request):
+    logger.info('in rebuild')
+    first = Result.objects.count() # get index of first result to be created in this challenge match
+    ladderOld = buildLadder()
+    ladder = [ladderOld[0]] 
+    
+    for challenger in ladderOld[1:]:
+        runGauntlet(challenger, ladder)
+    
+    results_list = Result.objects.all()[first:]
+    return render_to_response('ladder/challenge.html',
+                              {'results_list': results_list,}, 
+                               context_instance=RequestContext(request))

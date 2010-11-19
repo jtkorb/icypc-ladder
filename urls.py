@@ -8,5 +8,6 @@ urlpatterns = patterns('',
 
     (r'^admin/', include(admin.site.urls)),
     (r'^ladder/challenge/', 'ladder.views.challenge'),
+    (r'^ladder/rebuild/', 'ladder.views.rebuild'),
     (r'^ladder/', 'ladder.views.index'),
 )
