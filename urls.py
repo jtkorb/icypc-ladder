@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from django.contrib import admin
 admin.autodiscover()
@@ -11,3 +12,5 @@ urlpatterns = patterns('',
     (r'^ladder/rebuild/', 'ladder.views.rebuild'),
     (r'^ladder/', 'ladder.views.index'),
 )
+
+urlpatterns += staticfiles_urlpatterns()
