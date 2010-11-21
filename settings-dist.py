@@ -6,7 +6,15 @@ ADMIN_EMAIL = 'YOUR EMAIL'
 ROOT_PATH = '/ABSOLUTE PATH TO DIRECTORY WHERE THIS FILE IS LOCATED'
 ICYPC_JAR = '/ABSOLUTE LOCATION OF FILE/icypc.jar'
 TRACES_DIR = '/ABSOLUTE PATH TO DIRECTORY FOR TRACES FILES'
+HTDOCS_ROOT  '/ABSOLUTE PATH TO HTDOCS DIRECTORY'
 SECRET_KEY = '======= CHOOSE A RANDOM KEY THIS BIG ========'
+
+STATIC_MEDIA = '/static/'
+STATIC_URL = STATIC_MEDIA
+STATIC_ROOT = HTDOCS_ROOT + STATIC_MEDIA
+
+MEDIA_ROOT = ROOT_PATH
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -66,7 +74,7 @@ USE_L10N = True
 #ADMIN_MEDIA_PREFIX = '/media/'  ## SET AT TOP OF FILE
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '_dxn!cy6lxi6ev1txad5(leiy@@fj#d8n+#sjc@^jj=k(#d@0t'
+#SECRET_KEY = ''  ## SET AT TOP OF FILE
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
