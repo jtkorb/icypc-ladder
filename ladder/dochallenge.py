@@ -7,7 +7,7 @@ from os.path import expanduser
 import subprocess
 import re
 from settings import ICYPC_JAR, TRACES_DIR, logger
-from os import stat, makedirs, rename
+from os import stat, makedirs, rename, umask
 from datetime import datetime
 
 from models import Result
@@ -75,6 +75,7 @@ def runMatch(red, blue):
         r = Result(time=datetime.now(), winnerUser=winner[0], winnerPlayer=winner[1], loserUser=loser[0], loserPlayer=loser[1],
                    output=log)
         r.save()
+        umask(002)  # ensure world can read these files
         rename(TRACES_DIR + '/trace.txt', TRACES_DIR + '/%s.txt' % r.pk)
         
         try:
